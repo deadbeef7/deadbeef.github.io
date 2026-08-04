@@ -348,6 +348,15 @@ class Terminal {
                 this.unknown(command);
 
         }
+      this.commandCounter ??= 0;
+
+      this.commandCounter++;
+      
+      if(this.commandCounter%5===0){
+      
+      this.hint();
+      
+      }
 
     }
 
