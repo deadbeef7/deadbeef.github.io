@@ -19,6 +19,12 @@ const bootEnter = document.getElementById("boot-enter");
 
 const site = document.getElementById("site");
 
+const terminalInput =
+document.getElementById("terminal-command");
+
+const terminalOutput =
+document.getElementById("terminal-output");
+
 
 function whoami(){
 
