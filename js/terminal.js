@@ -609,14 +609,6 @@ reboot`
 
   );
 
-    uname() {
-
-this.print(
-
-"Linux wired 6.16.0 AyoubOS x86_64 GNU/Linux"
-
-);
-
   }
 
  historyCommand() {
