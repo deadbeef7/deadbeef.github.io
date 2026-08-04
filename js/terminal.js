@@ -85,12 +85,6 @@ class Terminal {
 
         });
 
-        document.addEventListener("click", () => {
-
-            this.input.focus();
-
-        });
-
     }
 
     /*=========================================
