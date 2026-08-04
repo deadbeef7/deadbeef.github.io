@@ -2,13 +2,12 @@
 ========================================================
 
                 terminal.js
+                Part 1
 
-Part 1
-
-Terminal Engine
-Input
+Core terminal engine
+Input handling
 History
-Filesystem Integration
+Command parser
 
 ========================================================
 */
@@ -22,24 +21,39 @@ class Terminal {
         this.fs = filesystem;
         this.theme = theme;
 
-        this.output = $("#terminal-output");
-        this.input = $("#terminal-command");
-        this.promptElement = $(".terminal-input span");
+        this.output = document.querySelector("#terminal-output");
+        this.input = document.querySelector("#terminal-command");
+        this.prompt = document.querySelector(".terminal-input span");
 
         this.history = [];
         this.historyIndex = 0;
+
+        this.commandCounter = 0;
 
         this.busy = false;
 
     }
 
-    /*==================================================
-    Initialize
-    ==================================================*/
+    /*=========================================
+        Initialization
+    =========================================*/
 
     init() {
 
         this.updatePrompt();
+
+        this.print("");
+        this.print("========================================");
+        this.print("        AyoubOS Terminal v2.1");
+        this.print("========================================");
+        this.print("");
+        this.print("Welcome to my interactive portfolio.");
+        this.print("");
+        this.print("Type 'tutorial' if you're new.");
+        this.print("Type 'help' to list commands.");
+        this.print("");
+
+        this.input.focus();
 
         this.input.addEventListener("keydown", (event) => {
 
@@ -64,29 +78,35 @@ class Terminal {
 
                 case "Tab":
                     event.preventDefault();
-                    this.tabComplete();
+                    this.complete();
                     break;
 
             }
 
         });
 
+        document.addEventListener("click", () => {
+
+            this.input.focus();
+
+        });
+
     }
 
-    /*==================================================
-    Prompt
-    ==================================================*/
+    /*=========================================
+        Prompt
+    =========================================*/
 
     updatePrompt() {
 
-        this.promptElement.textContent =
+        this.prompt.textContent =
             `ayoub@wired:${this.fs.prompt()}$`;
 
     }
 
-    /*==================================================
-    Printing
-    ==================================================*/
+    /*=========================================
+        Output
+    =========================================*/
 
     print(text = "") {
 
@@ -96,19 +116,12 @@ class Terminal {
 
         this.output.appendChild(pre);
 
-        scrollBottom(this.output);
+        this.output.scrollTop =
+            this.output.scrollHeight;
 
     }
 
-    printCommand(command) {
-
-        this.print(
-`${this.promptElement.textContent} ${command}`
-        );
-
-    }
-
-    async type(text, speed = 18) {
+    async type(text, speed = 20) {
 
         this.busy = true;
 
@@ -116,11 +129,12 @@ class Terminal {
 
         this.output.appendChild(pre);
 
-        for (const character of text) {
+        for (const ch of text) {
 
-            pre.textContent += character;
+            pre.textContent += ch;
 
-            scrollBottom(this.output);
+            this.output.scrollTop =
+                this.output.scrollHeight;
 
             await sleep(speed);
 
@@ -130,43 +144,54 @@ class Terminal {
 
     }
 
+    command(text) {
+
+        this.print(
+
+`${this.prompt.textContent} ${text}`
+
+        );
+
+    }
+
     clear() {
 
         this.output.innerHTML = "";
 
     }
 
-    /*==================================================
-    Input
-    ==================================================*/
+    /*=========================================
+        Input
+    =========================================*/
 
     submit() {
 
-        const command =
+        const value =
             this.input.value.trim();
 
-        if (command === "")
+        if (value === "")
             return;
 
-        this.printCommand(command);
+        this.command(value);
 
-        this.history.push(command);
+        this.history.push(value);
 
-        this.historyIndex = this.history.length;
+        this.historyIndex =
+            this.history.length;
 
-        this.execute(command);
+        this.execute(value);
 
         this.input.value = "";
 
     }
 
-    /*==================================================
-    History
-    ==================================================*/
+    /*=========================================
+        History
+    =========================================*/
 
     historyUp() {
 
-        if (this.history.length === 0)
+        if (!this.history.length)
             return;
 
         this.historyIndex--;
@@ -181,7 +206,7 @@ class Terminal {
 
     historyDown() {
 
-        if (this.history.length === 0)
+        if (!this.history.length)
             return;
 
         this.historyIndex++;
@@ -202,26 +227,27 @@ class Terminal {
 
     }
 
-    /*==================================================
-    Tab Completion
-    ==================================================*/
+    /*=========================================
+        Tab completion
+    =========================================*/
 
-    tabComplete() {
+    complete() {
 
         const commands = [
 
             "help",
+            "tutorial",
             "clear",
             "ls",
             "pwd",
             "cd",
             "cat",
+            "tree",
             "history",
+            "echo",
             "date",
             "whoami",
             "uname",
-            "tree",
-            "echo",
             "neofetch",
             "github",
             "spacehey",
@@ -237,21 +263,28 @@ class Terminal {
         const value =
             this.input.value.trim();
 
-        const match =
-            commands.find(command =>
-                command.startsWith(value)
-            );
+        const match = commands.find(cmd =>
+            cmd.startsWith(value)
+        );
 
         if (match)
             this.input.value = match;
 
     }
 
-    /*==================================================
-    Command Parser
-    ==================================================*/
+    /*=========================================
+        Parser
+    =========================================*/
 
     execute(line) {
+
+        this.commandCounter++;
+
+        if (this.commandCounter % 5 === 0) {
+
+            this.randomHint();
+
+        }
 
         const args =
             line.split(" ");
@@ -263,6 +296,10 @@ class Terminal {
 
             case "help":
                 this.help();
+                break;
+
+            case "tutorial":
+                this.tutorial();
                 break;
 
             case "clear":
@@ -284,162 +321,89 @@ class Terminal {
             case "cat":
                 this.cat(args[0]);
                 break;
-            case "tutorial":
-                  this.tutorial();
-                  break;
-              
-              case "tree":
-                  this.tree();
-                  break;
-              
-              case "echo":
-                  this.echo(args.join(" "));
-                  break;
-              
-              case "history":
-                  this.historyCommand();
-                  break;
-              
-              case "date":
-                  this.date();
-                  break;
-              
-              case "uname":
-                  this.uname();
-                  break;
-              
-              case "whoami":
-                  this.whoami();
-                  break;
-              
-              case "github":
-                  this.github();
-                  break;
-              
-              case "spacehey":
-                  this.spacehey();
-                  break;
-              
-              case "wired":
-                  this.wired();
-                  break;
-              
-              case "orange":
-                  this.orange();
-                  break;
-              
-              case "neofetch":
-                  this.neofetch();
-                  break;
-              
-              case "hack":
-                  this.hack(args.join(" "));
-                  break;
-              
-              case "sudo":
-                  this.sudo(args.join(" "));
-                  break;
-              
-              case "reboot":
-                  this.reboot();
-                  break;
+
+            case "tree":
+                this.tree();
+                break;
+
+            case "history":
+                this.historyCommand();
+                break;
+
+            case "echo":
+                this.echo(args.join(" "));
+                break;
+
+            case "date":
+                this.date();
+                break;
+
+            case "whoami":
+                this.whoami();
+                break;
+
+            case "uname":
+                this.uname();
+                break;
+
+            case "neofetch":
+                this.neofetch();
+                break;
+
+            case "github":
+                this.github();
+                break;
+
+            case "spacehey":
+                this.spacehey();
+                break;
+
+            case "wired":
+                this.wired();
+                break;
+
+            case "orange":
+                this.orange();
+                break;
+
+            case "lain":
+                this.lain();
+                break;
+
+            case "hack":
+                this.hack(args.join(" "));
+                break;
+
+            case "sudo":
+                this.sudo(args.join(" "));
+                break;
+
+            case "reboot":
+                this.reboot();
+                break;
 
             default:
                 this.unknown(command);
 
         }
-      this.commandCounter ??= 0;
-
-      this.commandCounter++;
-      
-      if(this.commandCounter%5===0){
-      
-      this.hint();
-      
-      }
 
     }
 
-    /*==================================================
-    Filesystem Commands
-    ==================================================*/
+    /*=========================================
+        Filesystem
+    =========================================*/
 
     ls() {
 
-        const files =
-            this.fs.ls();
+        const list = this.fs.ls();
 
-        files.forEach(file => {
+        list.forEach(item => {
 
-            this.print(file);
+            this.print(item);
 
         });
 
     }
-
-    tutorial() {
-      
-      this.print(`
-      
-      ============================
-      
-      Terminal Tutorial
-      
-      ============================
-      
-      Navigation
-      
-      ls
-      
-          List files
-      
-      pwd
-      
-          Show current directory
-      
-      cd projects
-      
-          Enter a directory
-      
-      cd ..
-      
-          Go back
-      
-      cat about.txt
-      
-          Read a file
-      
-      Useful
-      
-      help
-      
-      neofetch
-      
-      history
-      
-      tree
-      
-      Fun
-      
-      wired
-      
-      orange
-      
-      lain
-      
-      hack internet
-      
-      Portfolio
-      
-      github
-      
-      spacehey
-      
-      Enjoy exploring!
-      
-      `);
-      
-      }
 
     cd(folder) {
 
@@ -449,9 +413,7 @@ class Terminal {
 
         } else {
 
-            this.print(
-"Directory not found."
-            );
+            this.print("Directory not found.");
 
         }
 
@@ -462,11 +424,9 @@ class Terminal {
         const content =
             this.fs.cat(file);
 
-        if (!content) {
+        if (content === null) {
 
-            this.print(
-"File not found."
-            );
+            this.print("File not found.");
 
             return;
 
@@ -476,189 +436,232 @@ class Terminal {
 
     }
 
-    /*==================================================
-    Help
-    ==================================================*/
+    /*=========================================
+        PART 2 CONTINUES HERE
+    =========================================*/
+    /*=========================================
+        Help
+    =========================================*/
 
     help() {
 
-        this.print(
+        this.print(`
+==============================
 
-`Available Commands
+AyoubOS Commands
 
-help
+==============================
 
-clear
+Filesystem
 
 ls
-
 pwd
-
 cd
-
 cat
-
-history
-
-date
-
-whoami
-
-uname
-
 tree
 
+System
+
+help
+tutorial
+clear
+history
+date
+whoami
+uname
 echo
 
+Portfolio
+
 neofetch
-
 github
-
 spacehey
 
-wired
+Themes
 
+wired
 orange
 
+Fun
+
 lain
-
 hack
-
 sudo
+reboot
 
-reboot`
+Tip:
+Type "tutorial" if you're new.
 
-        );
+`);
 
     }
 
-    /*==================================================
-    Unknown
-    ==================================================*/
+    /*=========================================
+        Tutorial
+    =========================================*/
 
-    unknown(command) {
+    tutorial() {
+
+        this.print(`
+========================================
+
+Terminal Tutorial
+
+========================================
+
+Navigation
+
+ls
+    List files
+
+pwd
+    Show current directory
+
+cd projects
+    Enter a directory
+
+cd ..
+    Go back
+
+cat about.txt
+    Read a text file
+
+Useful Commands
+
+help
+tutorial
+neofetch
+tree
+history
+
+Fun Commands
+
+wired
+orange
+lain
+hack internet
+
+Portfolio
+
+github
+spacehey
+
+Have fun exploring :)
+
+`);
+
+    }
+
+    /*=========================================
+        Tree
+    =========================================*/
+
+    tree() {
+
+        this.print(`
+~
+
+├── about.txt
+├── anime.txt
+├── notes.txt
+├── skills.json
+├── projects
+│   ├── android.txt
+│   ├── vita.txt
+│   └── portfolio.txt
+└── gallery
+    ├── lain.gif
+    ├── bleach.gif
+    └── wired.gif
+
+`);
+
+    }
+
+    /*=========================================
+        History
+    =========================================*/
+
+    historyCommand() {
+
+        if (this.history.length === 0) {
+
+            this.print("History is empty.");
+
+            return;
+
+        }
+
+        this.history.forEach((command, index) => {
+
+            this.print(
+
+`${index + 1}  ${command}`
+
+            );
+
+        });
+
+    }
+
+    /*=========================================
+        Echo
+    =========================================*/
+
+    echo(text) {
+
+        this.print(text);
+
+    }
+
+    /*=========================================
+        Date
+    =========================================*/
+
+    date() {
 
         this.print(
 
-    `Unknown command:
-
-      ${command}
-
-    Type "help".`
+new Date().toString()
 
         );
 
     }
-    tree() {
-      
-      this.print(`
-      
-      ~
-      
-      ├── about.txt
-      
-      ├── anime.txt
-      
-      ├── notes.txt
-      
-      ├── skills.json
-      
-      ├── projects
-      
-      │   ├── android.txt
-      
-      │   ├── vita.txt
-      
-      │   └── portfolio.txt
-      
-      └── gallery
-      
-          ├── lain.gif
-      
-          ├── bleach.gif
-      
-          └── wired.gif
-      
-      `);
-      
-      }
-  echo(text) {
 
-    this.print(text);
+    /*=========================================
+        Whoami
+    =========================================*/
+
+    whoami() {
+
+        this.print("Ayoub");
+        this.print("IT Enthusiast");
+        this.print("Linux User");
+        this.print("Reverse Engineer");
 
     }
-  date() {
 
-  this.print(new Date().toString());
+    /*=========================================
+        Uname
+    =========================================*/
 
-  }
-  whoami() {
+    uname() {
 
-    this.print("Ayoub");
+        this.print(
 
-    this.print("IT Enthusiast");
+"Linux wired 6.16.0 AyoubOS x86_64 GNU/Linux"
 
-    this.print("Linux User");
+        );
 
-  }
-  uname() {
+    }
 
-  this.print(
+    /*=========================================
+        Neofetch
+    =========================================*/
 
-  "Linux wired 6.16.0 AyoubOS x86_64 GNU/Linux"
+    neofetch() {
 
-  );
-
-  }
-
- historyCommand() {
-
-this.history.forEach((command,index)=>{
-
-this.print(
-
-`${index+1}  ${command}`
-
-);
-
-this.print("press lain did you know there are hidden commands ?");
-
-});
-
-}
-    github(){
-
-window.open(
-
-"https://github.com/deadbeef7",
-
-"_blank"
-
-);
-
-}
-
-
-    spacehey(){
-
-window.open(
-
-"https://spacehey.com/0xdeadbeef_ayoub",
-
-"_blank"
-
-);
-
-}
-  }
-}
-/*==================================================
-Neofetch
-==================================================*/
-
-neofetch() {
-
-this.print(`
+        this.print(`
 
                  ayoub@wired
 ────────────────────────────────────
@@ -675,7 +678,13 @@ WM:        Hyprland
 
 Editor:    Vim
 
-Language:  C, C++, JavaScript
+Languages:
+
+• C
+
+• C++
+
+• JavaScript
 
 Focus:
 
@@ -697,166 +706,201 @@ Serial Experiments Lain
 
 `);
 
-}
+    }
 
-/*==================================================
-Theme
-==================================================*/
+    /*=========================================
+        PART 2B CONTINUES HERE
+    =========================================*/
+    /*=========================================
+        Portfolio Links
+    =========================================*/
 
-wired(){
+    github() {
 
-this.theme.setWired();
+        window.open(
+            "https://github.com/deadbeef7",
+            "_blank"
+        );
 
-this.print("");
+    }
 
-this.print("Connected to The Wired.");
+    spacehey() {
 
-this.print("");
+        window.open(
+            "https://spacehey.com/0xdeadbeef_ayoub",
+            "_blank"
+        );
 
-}
+    }
 
-orange(){
+    /*=========================================
+        Themes
+    =========================================*/
 
-this.theme.setOrange();
+    wired() {
 
-this.print("Orange mode restored.");
+        this.theme.setWired();
 
-}
+        this.print("");
+        this.print("Connected to The Wired.");
+        this.print("");
 
-/*==================================================
-Hack
-==================================================*/
+    }
 
-async hack(target){
+    orange() {
 
-if(!target){
+        this.theme.setOrange();
 
-target="localhost";
+        this.print("Orange mode restored.");
 
-}
+    }
 
-this.busy=true;
+    /*=========================================
+        Hack Simulator
+    =========================================*/
 
-const steps=[
+    async hack(target) {
 
-`Connecting to ${target}...`,
+        if (!target)
+            target = "localhost";
 
-"Scanning ports...",
+        this.busy = true;
 
-"Searching vulnerabilities...",
+        const messages = [
 
-"Attempting privilege escalation...",
+            `Connecting to ${target}...`,
+            "Scanning ports...",
+            "Looking for vulnerabilities...",
+            "Attempting privilege escalation...",
+            "Uploading payload...",
+            "Downloading classified files...",
+            "",
+            "ERROR",
+            "ACCESS DENIED"
 
-"Injecting payload...",
+        ];
 
-"Downloading secrets...",
+        for (const line of messages) {
 
-"ERROR",
+            await this.type(line, 35);
 
-"Access denied."
+        }
 
-];
+        this.busy = false;
 
-for(const step of steps){
+    }
 
-await this.type(step,40);
+    /*=========================================
+        Lain
+    =========================================*/
 
-}
+    async lain() {
 
-this.busy=false;
+        this.busy = true;
 
-}
+        await this.type("Present Day...", 45);
 
-/*==================================================
-Lain
-==================================================*/
+        await sleep(500);
 
-async lain(){
+        await this.type("Present Time...", 45);
 
-this.busy=true;
+        await sleep(700);
 
-await this.type("Present Day...",45);
+        await this.type("Let's all love Lain.", 45);
 
-await sleep(500);
+        this.theme.setWired();
 
-await this.type("Present Time...",45);
+        document.body.classList.add("glitch");
 
-await sleep(700);
+        setTimeout(() => {
 
-await this.type("Let's all love Lain.",45);
+            document.body.classList.remove("glitch");
 
-this.theme.setWired();
+        }, 2000);
 
-document.body.classList.add("glitch");
+        this.busy = false;
 
-setTimeout(()=>{
+    }
 
-document.body.classList.remove("glitch");
+    /*=========================================
+        sudo
+    =========================================*/
 
-},2500);
+    sudo(command) {
 
-this.busy=false;
+        if (command === "rm -rf /") {
 
-}
+            this.print("");
+            this.print("Nice try :)");
+            this.print("Permission denied.");
 
-/*==================================================
-sudo
-==================================================*/
+            return;
 
-sudo(command){
+        }
 
-if(command==="rm -rf /"){
+        if (command === "make me a sandwich") {
 
-this.print("");
+            this.print("Okay.");
 
-this.print("Nice try :)");
+            return;
 
-this.print("Permission denied.");
+        }
 
-return;
+        this.print("sudo: permission denied");
 
-}
+    }
 
-this.print("sudo: permission denied");
+    /*=========================================
+        Reboot
+    =========================================*/
 
-}
+    reboot() {
 
-/*==================================================
-Reboot
-==================================================*/
+        location.reload();
 
-reboot(){
+    }
 
-location.reload();
+    /*=========================================
+        Unknown Command
+    =========================================*/
 
-}
+    unknown(command) {
 
-/*==================================================
-Hints
-==================================================*/
+        this.print(
+            `Unknown command: ${command}`
+        );
 
-hint(){
+        this.print(
+            "Type 'help' to list available commands."
+        );
 
-const hints=[
+    }
 
-'Tip: try "tutorial".',
+    /*=========================================
+        Random Hint
+    =========================================*/
 
-'Hint: type "lain".',
+    randomHint() {
 
-'Hint: the Japanese title is clickable.',
+        const hints = [
 
-'Did you know? Press ↑ for command history.',
+            "Tip: Try 'tutorial'.",
+            "Hint: Type 'lain'.",
+            "Hint: Try 'neofetch'.",
+            "Did you know? Press ↑ for command history.",
+            "Hint: 'wired' changes the theme.",
+            "There are hidden commands...",
+            "Try exploring the filesystem."
 
-'Tip: try "wired".'
+        ];
 
-];
+        const hint =
+            hints[Math.floor(Math.random() * hints.length)];
 
-this.print("");
+        this.print("");
+        this.print(hint);
+        this.print("");
 
-this.print(
-
-hints[random(0,hints.length-1)]
-
-);
+    }
 
 }
