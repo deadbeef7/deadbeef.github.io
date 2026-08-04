@@ -1,411 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ayoub | Connected to the Wired</title>
-
-    <meta name="description"
-        content="Ayoub's personal portfolio. Linux, reverse engineering, graphics programming and operating systems.">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@300;400;500;700&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=VT323&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-    <!-- ===================================== -->
-    <!-- OVERLAYS -->
-    <!-- ===================================== -->
-
-    <div id="noise"></div>
-    <div id="scanlines"></div>
-
-    <!-- ===================================== -->
-    <!-- BOOT SCREEN -->
-    <!-- ===================================== -->
-
-    <section id="boot-screen">
-
+    <!-- ====== BOOT SCREEN ====== -->
+    <div id="boot-screen">
         <pre id="boot-output"></pre>
+        <span id="boot-cursor">█</span>
+        <div id="boot-enter">[ PRESS ENTER ]</div>
+    </div>
 
-        <div id="boot-cursor">█</div>
+    <!-- ====== CRT EFFECTS ====== -->
+    <div id="scanlines"></div>
+    <div id="noise"></div>
 
-        <div id="boot-enter">
-            Press ENTER
-        </div>
-
-    </section>
-
-    <!-- ===================================== -->
-    <!-- WEBSITE -->
-    <!-- ===================================== -->
-
+    <!-- ====== MAIN SITE ====== -->
     <div id="site">
 
         <!-- HERO -->
-
-        <header class="hero">
-
+        <section class="hero">
             <div class="hero-overlay"></div>
-
             <div class="hero-content">
-
-                <p class="boot-text">
-                    CONNECTED TO THE WIRED
-                </p>
-
-                <h1 id="logo">
-                    アユーブ
-                </h1>
-
-                <h2>
-                    AYOUB
-                </h2>
-
-                <p class="subtitle">
-                    IT Enthusiast • Linux User • Reverse Engineer
-                </p>
-
-                <p class="quote">
-                    "I touch software that shouldn't be touched."
-                </p>
-
-                <nav class="hero-buttons">
-
-                    <a href="https://github.com/deadbeef7"
-                       target="_blank">
-                        GitHub
-                    </a>
-
-                    <a href="https://spacehey.com/0xdeadbeef_ayoub"
-                       target="_blank">
-                        SpaceHey
-                    </a>
-
-                    <a href="#projects">
-                        Projects
-                    </a>
-
-                    <a href="#terminal">
-                        Terminal
-                    </a>
-
-                </nav>
-
+                <div class="boot-text">CONNECTED TO THE WIRED</div>
+                <div id="logo">アユーブ</div>
+                <h2>AYOUB</h2>
+                <p class="subtitle">IT Enthusiast &bull; Linux User &bull; Reverse Engineer</p>
+                <p class="quote">&ldquo;I touch software that shouldn&rsquo;t be touched.&rdquo;</p>
+                <div class="hero-buttons">
+                    <a href="https://github.com/deadbeef7" target="_blank">GitHub</a>
+                    <a href="https://spacehey.com/0xdeadbeef_ayoub" target="_blank">SpaceHey</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#terminal">Terminal</a>
+                </div>
             </div>
-
-        </header>
+        </section>
 
         <!-- MAIN -->
-
         <main>
 
             <!-- ABOUT -->
-
             <section class="panel" id="about">
-
-                <div class="panel-title">
-                    ABOUT
-                </div>
-
+                <div class="panel-title">ABOUT</div>
                 <div class="panel-content">
-
                     <div class="about-image">
-
-                        <img
-                            src="https://media0.giphy.com/media/v1.Y2lkPTZjMDliOTUyaWpsMmFleG93czZ2endlZ2k3ZG13YXRrZ3I3ZWJwemtvbnY5bWphdCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/10or1Jci6okM6I/giphy.gif"
-                            alt="Lain">
-
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Crect width='240' height='240' fill='%23111111'/%3E%3Ctext x='120' y='130' text-anchor='middle' fill='%23ff7a00' font-family='monospace' font-size='60'%3E👾%3C/text%3E%3C/svg%3E" alt="Lain" />
                     </div>
-
                     <div class="about-text">
-
-                        <p>
-
-                            Hi.
-
-                            I'm Ayoub, an IT enthusiast from Morocco.
-
-                        </p>
-
-                        <p>
-
-                            I enjoy Linux, reverse engineering,
-                            Android internals, graphics programming
-                            and building strange projects.
-
-                        </p>
-
-                        <p>
-
-                            Favorite anime:
-
-                            Bleach • Serial Experiments Lain • Fate • Persona • SAO
-
-                        </p>
-
+                        <p>Hi. I&rsquo;m Ayoub, an IT enthusiast from Morocco.</p>
+                        <p>I enjoy Linux, reverse engineering, Android internals, graphics programming and building strange projects.</p>
+                        <p>Favorite anime: Bleach &bull; Serial Experiments Lain &bull; Fate &bull; Persona &bull; SAO</p>
                     </div>
-
                 </div>
-
             </section>
 
-            <!-- STATUS -->
-
+            <!-- SYSTEM STATUS -->
             <section class="panel">
-
-                <div class="panel-title">
-
-                    SYSTEM STATUS
-
-                </div>
-
+                <div class="panel-title">SYSTEM STATUS</div>
                 <div class="stats-grid">
-
-                    <div class="stat">
-
-                        <h3>Status</h3>
-
-                        <p class="online">
-
-                            ● ONLINE
-
-                        </p>
-
-                    </div>
-
-                    <div class="stat">
-
-                        <h3>Location</h3>
-
-                        <p>
-
-                            Morocco
-
-                        </p>
-
-                    </div>
-
-                    <div class="stat">
-
-                        <h3>Languages</h3>
-
-                        <p>
-
-                            Arabic<br>
-                            French<br>
-                            English<br>
-                            Japanese (Learning)
-
-                        </p>
-
-                    </div>
-
-                    <div class="stat">
-
-                        <h3>Focus</h3>
-
-                        <p>
-
-                            Linux<br>
-                            Android<br>
-                            Operating Systems<br>
-                            Graphics
-
-                        </p>
-
-                    </div>
-
+                    <div class="stat"><h3>Status</h3><span class="online">● ONLINE</span></div>
+                    <div class="stat"><h3>Location</h3>Morocco</div>
+                    <div class="stat"><h3>Languages</h3>Arabic &bull; French &bull; English &bull; Japanese (Learning)</div>
+                    <div class="stat"><h3>Focus</h3>Linux &bull; Android &bull; OS &bull; Graphics</div>
                 </div>
-
             </section>
 
             <!-- PROJECTS -->
-
             <section class="panel" id="projects">
-
-                <div class="panel-title">
-
-                    PROJECTS
-
-                </div>
-
+                <div class="panel-title">PROJECTS</div>
                 <div class="cards">
-
-                    <article class="card">
-
-                        <h3>
-
-                            Android Kernel Tweaks
-
-                        </h3>
-
-                        <p>
-
-                            Rooting, kernel research,
-                            GPU experimentation and
-                            Android internals.
-
-                        </p>
-
-                    </article>
-
-                    <article class="card">
-
-                        <h3>
-
-                            Vita Linux
-
-                        </h3>
-
-                        <p>
-
-                            Reverse engineering the
-                            PlayStation Vita hardware
-                            and Linux support.
-
-                        </p>
-
-                    </article>
-
-                    <article class="card">
-
-                        <h3>
-
-                            Personal Projects
-
-                        </h3>
-
-                        <p>
-
-                            Operating systems,
-                            graphics programming,
-                            Linux tooling and more.
-
-                        </p>
-
-                    </article>
-
+                    <div class="card"><h3>Android Kernel Tweaks</h3><p>Rooting, kernel research, GPU experimentation and Android internals.</p></div>
+                    <div class="card"><h3>Vita Linux</h3><p>Reverse engineering the PlayStation Vita hardware and Linux support.</p></div>
+                    <div class="card"><h3>Personal Projects</h3><p>Operating systems, graphics programming, Linux tooling and more.</p></div>
                 </div>
-
             </section>
 
             <!-- GALLERY -->
-
             <section class="panel">
-
-                <div class="panel-title">
-
-                    GALLERY
-
-                </div>
-
+                <div class="panel-title">GALLERY</div>
                 <div class="gallery">
-
-                    <img src="https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyZTZrNmV4eDVqcjI2bnR1ZGZ1ODNpa2QyMTBodTZlZDNyY2R1MmNwMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4fCFRodZ5tJu0/giphy.gif">
-
-                    <img src="https://media1.giphy.com/media/v1.Y2lkPTZjMDliOTUyM2I0aG0ydW5rcDF1MmVmeWR0M2VyMTJmZjZna25qc2hhcDgyZTRmayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/oytiGBSlC7zAQ/giphy.gif">
-
-                    <img src="https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyMWszYnFsMDI2bWFiaTJxM241YzVha3dldGdjcGExeG9qODNteWtuMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tDjFumobCMUj6/giphy.gif">
-
-                    <img src="https://media1.tenor.com/m/OlHMWq46CtAAAAAd/serial-experiments-lain-lain.gif">
-
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Crect width='220' height='220' fill='%23111111'/%3E%3Ctext x='110' y='120' text-anchor='middle' fill='%23ff7a00' font-family='monospace' font-size='80'%3E🖥️%3C/text%3E%3C/svg%3E" alt="Gallery 1" />
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Crect width='220' height='220' fill='%23111111'/%3E%3Ctext x='110' y='120' text-anchor='middle' fill='%23ff7a00' font-family='monospace' font-size='80'%3E💻%3C/text%3E%3C/svg%3E" alt="Gallery 2" />
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Crect width='220' height='220' fill='%23111111'/%3E%3Ctext x='110' y='120' text-anchor='middle' fill='%23ff7a00' font-family='monospace' font-size='80'%3E🔧%3C/text%3E%3C/svg%3E" alt="Gallery 3" />
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Crect width='220' height='220' fill='%23111111'/%3E%3Ctext x='110' y='120' text-anchor='middle' fill='%23ff7a00' font-family='monospace' font-size='80'%3E⚡%3C/text%3E%3C/svg%3E" alt="Gallery 4" />
                 </div>
-
             </section>
 
             <!-- TERMINAL -->
-
             <section class="panel" id="terminal">
-
-                <div class="panel-title">
-
-                    TERMINAL
-
-                </div>
-
+                <div class="panel-title">TERMINAL</div>
                 <div class="terminal">
-
-                    <div id="terminal-output">
-
-                        <pre>
-
-Welcome to AyoubOS.
-
-Type "help" to begin.
-
-                        </pre>
-
-                    </div>
-
+                    <div id="terminal-output"></div>
                     <div class="terminal-input">
-
-                        <span>
-
-                            ayoub@wired:~$
-
-                        </span>
-
-                        <input
-                            id="terminal-command"
-                            type="text"
-                            spellcheck="false"
-                            autocomplete="off">
-
+                        <span>ayoub@wired:~$</span>
+                        <input type="text" id="terminal-command" autofocus spellcheck="false" />
                     </div>
-
                 </div>
-
             </section>
 
         </main>
 
         <!-- FOOTER -->
-
         <footer>
-
-            <p>
-
-                © 2026 Ayoub
-
-            </p>
-
-            <p>
-
-                Made with HTML, CSS & JavaScript.
-
-            </p>
-
-            <p class="lain">
-
-                Let's all love Lain.
-
-            </p>
-
+            <p>&copy; 2026 Ayoub</p>
+            <p>Made with HTML, CSS &amp; JavaScript.</p>
+            <p class="lain">Let&rsquo;s all love Lain.</p>
         </footer>
 
     </div>
 
-    <!-- JavaScript -->
-
+    <!-- ====== SCRIPTS ====== -->
     <script src="js/utils.js"></script>
-    <script src="js/boot.js"></script>
-    <script src="js/theme.js"></script>
     <script src="js/filesystem.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/boot.js"></script>
     <script src="js/terminal.js"></script>
     <script src="js/eastereggs.js"></script>
     <script src="js/app.js"></script>
 
 </body>
-
 </html>
