@@ -127,5 +127,21 @@
     <script src="js/eastereggs.js"></script>
     <script src="js/app.js"></script>
 
+    <script>
+      (function() {
+        // Backup the original method
+        const originalScrollIntoView = Element.prototype.scrollIntoView;
+        Element.prototype.scrollIntoView = function(options) {
+          // If the target element is the terminal or inside it, skip
+          const terminal = document.getElementById('terminal');
+          if (terminal && (this === terminal || terminal.contains(this))) {
+            console.warn('Blocked scroll to terminal');
+            return;
+          }
+          originalScrollIntoView.call(this, options);
+        };
+      })();
+    </script>
+
 </body>
 </html>
