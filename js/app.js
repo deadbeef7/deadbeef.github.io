@@ -27,6 +27,7 @@ this.fs,
 this.theme
 
 );
+  this.eggs = new EasterEggs(this);
 
 }
 
@@ -35,6 +36,7 @@ init(){
 this.boot.start();
 
 this.terminal.init();
+this.eggs.init();
 
 document.addEventListener("keydown",(event)=>{
 
