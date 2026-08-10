@@ -631,7 +631,7 @@ new Date().toString()
         this.print("Ayoub");
         this.print("IT Enthusiast");
         this.print("Linux User");
-        this.print("Reverse Engineer");
+        this.print("Randomly Reverse Engineer");
 
     }
 
@@ -702,9 +702,6 @@ Serial Experiments Lain
 
     }
 
-    /*=========================================
-        PART 2B CONTINUES HERE
-    =========================================*/
     /*=========================================
         Portfolio Links
     =========================================*/
@@ -800,7 +797,7 @@ Serial Experiments Lain
 
         await sleep(700);
 
-        await this.type("Let's all love Lain.", 45);
+        await this.type("please browse j946@5488aa97464", 45);
 
         this.theme.setWired();
 
@@ -826,7 +823,7 @@ Serial Experiments Lain
 
             this.print("");
             this.print("Nice try :)");
-            this.print("Permission denied.");
+            this.print("Permission denied, or is it ?");
 
             return;
 
