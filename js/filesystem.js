@@ -87,7 +87,7 @@ Welcome to The Wired.
     "C":"Advanced",
     "C++":"Advanced",
     "JavaScript":"Advanced",
-    "Android":"Advanced",
+    "Android Tweaking":"Advanced",
     "Reverse Engineering":"Advanced"
 }`,
 
@@ -100,15 +100,17 @@ Welcome to The Wired.
 - Fate
 - Persona
 - Sword Art Online
+- JJK
 `,
 
             "notes.txt":
 
 `Things to do
 
-- Finish portfolio
+- Finish portfolio (done)
 - Reverse engineer more hardware
 - Build my own OS
+- Get a job
 `,
 
             "android.txt":
