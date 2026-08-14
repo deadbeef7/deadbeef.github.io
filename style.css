@@ -178,7 +178,7 @@ CRT
 
     background-image:
 
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3C/feTurbulence%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
 
     animation:noise .20s infinite;
 
@@ -276,21 +276,19 @@ BOOT SCREEN
 
     font-family:"VT323",monospace;
 
-   
-
-    padding:30px;
+    padding:40px;
 
 }
 
 #boot-output{
 
-    width:min(750px,95vw);
+    width:min(850px,95vw);
 
     white-space:pre-wrap;
 
-    font-size: clamp(0.5rem, 4vw + 1rem, 2.5rem);
+    font-size:1.6rem;
 
-    line-height:1.0;
+    line-height:1.3;
 
 }
 
@@ -298,7 +296,7 @@ BOOT SCREEN
 
     font-size:2rem;
 
-    animation:blink .5s infinite;
+    animation:blink .8s infinite;
 
 }
 
@@ -317,7 +315,6 @@ BOOT SCREEN
     transition:.5s;
 
     cursor:pointer;
-    position: sticky;
 
 }
 
@@ -437,7 +434,7 @@ HERO
 
     font-family:"VT323",monospace;
 
-    font-size:6.5rem;
+    font-size:7rem;
 
     color:var(--accent);
 
@@ -715,4 +712,685 @@ SYSTEM STATUS
 
 }
 
-/* truncated for brevity */
+.online{
+
+    color:#65ff65;
+
+    font-weight:bold;
+
+    text-shadow:
+
+    0 0 8px #65ff65;
+
+}
+
+/*========================================================
+PROJECT CARDS
+========================================================*/
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fit,minmax(270px,1fr));
+
+    gap:25px;
+
+    padding:30px;
+
+}
+
+.card{
+
+    background:#080808;
+
+    border:1px solid var(--border);
+
+    padding:25px;
+
+    transition:.35s;
+
+}
+
+.card:hover{
+
+    transform:
+
+    translateY(-8px);
+
+    border-color:white;
+
+    box-shadow:
+
+    0 0 25px rgba(255,140,0,.35);
+
+}
+
+.card h3{
+
+    font-family:"VT323",monospace;
+
+    font-size:2rem;
+
+    margin-bottom:15px;
+
+    color:var(--accent);
+
+}
+
+.card p{
+
+    color:#d4a56b;
+
+}
+
+/*========================================================
+GALLERY
+========================================================*/
+
+.gallery{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:18px;
+
+    padding:30px;
+
+}
+
+.gallery img{
+
+    width:100%;
+
+    border:2px solid var(--border);
+
+    transition:.35s;
+
+    image-rendering:pixelated;
+
+}
+
+.gallery img:hover{
+
+    transform:scale(1.05);
+
+    box-shadow:
+
+    0 0 20px var(--accent);
+
+}
+
+/*========================================================
+TERMINAL
+========================================================*/
+
+.terminal{
+
+    background:#040404;
+
+    padding:20px;
+
+    font-family:"VT323",monospace;
+
+    min-height:420px;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+#terminal-output{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    white-space:pre-wrap;
+
+    font-size:1.45rem;
+
+    color:#ffd59b;
+
+    margin-bottom:15px;
+
+}
+
+#terminal-output pre{
+
+    margin-bottom:8px;
+
+    font-family:inherit;
+
+}
+
+.terminal-input{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    border-top:1px solid rgba(255,120,0,.25);
+
+    padding-top:15px;
+
+}
+
+.terminal-input span{
+
+    color:var(--accent);
+
+    white-space:nowrap;
+
+}
+
+.terminal-input input{
+
+    flex:1;
+
+    background:transparent;
+
+    border:none;
+
+    outline:none;
+
+    color:white;
+
+    font-family:inherit;
+
+    font-size:1.4rem;
+
+}
+
+/*========================================================
+FOOTER
+========================================================*/
+
+footer{
+
+    text-align:center;
+
+    padding:60px 20px;
+
+    color:#777;
+
+    border-top:2px solid rgba(255,120,0,.2);
+
+    margin-top:60px;
+
+}
+
+footer p{
+
+    margin:10px 0;
+
+}
+
+.lain{
+
+    color:var(--accent);
+
+    letter-spacing:2px;
+
+}
+
+/*========================================================
+WIRED MODE
+========================================================*/
+
+body.wired{
+
+    --background:#001100;
+
+    --panel:#021502;
+
+    --panel2:#042204;
+
+    --border:#72ff72;
+
+    --border2:#9eff9e;
+
+    --accent:#72ff72;
+
+    --accent2:#b4ffb4;
+
+    --text:#b8ffb8;
+
+    --shadow:0 0 18px rgba(114,255,114,.45);
+
+}
+
+body.wired{
+
+    background:#001100;
+
+    color:#caffca;
+
+}
+
+body.wired .panel{
+
+    box-shadow:0 0 18px rgba(114,255,114,.25);
+
+}
+
+body.wired #logo{
+
+    color:#72ff72;
+
+    text-shadow:
+
+    0 0 10px #72ff72,
+
+    0 0 25px #72ff72;
+
+}
+
+body.wired .online{
+
+    color:#9dff9d;
+
+}
+
+/*========================================================
+ANIMATIONS
+========================================================*/
+
+@keyframes blink{
+
+    0%,49%{
+
+        opacity:1;
+
+    }
+
+    50%,100%{
+
+        opacity:0;
+
+    }
+
+}
+
+@keyframes flicker{
+
+    0%{
+
+        opacity:1;
+
+    }
+
+    4%{
+
+        opacity:.8;
+
+    }
+
+    5%{
+
+        opacity:.25;
+
+    }
+
+    6%{
+
+        opacity:1;
+
+    }
+
+    15%{
+
+        opacity:.95;
+
+    }
+
+    16%{
+
+        opacity:.5;
+
+    }
+
+    17%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:1;
+
+    }
+
+}
+
+@keyframes noise{
+
+    from{
+
+        transform:translate(0,0);
+
+    }
+
+    25%{
+
+        transform:translate(-4px,2px);
+
+    }
+
+    50%{
+
+        transform:translate(2px,-2px);
+
+    }
+
+    75%{
+
+        transform:translate(3px,1px);
+
+    }
+
+    to{
+
+        transform:translate(0,0);
+
+    }
+
+}
+
+@keyframes gridMove{
+
+    from{
+
+        transform:translateY(0);
+
+    }
+
+    to{
+
+        transform:translateY(24px);
+
+    }
+
+}
+
+@keyframes powerOff{
+
+    0%{
+
+        opacity:1;
+
+        transform:scaleY(1);
+
+    }
+
+    60%{
+
+        transform:scaleY(.02);
+
+        filter:brightness(3);
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:scaleY(0);
+
+    }
+
+}
+
+@keyframes glitch{
+
+    0%{
+
+        transform:translateX(0);
+
+        filter:hue-rotate(0deg);
+
+    }
+
+    20%{
+
+        transform:translateX(-2px);
+
+    }
+
+    40%{
+
+        transform:translateX(2px);
+
+    }
+
+    60%{
+
+        transform:translateY(1px);
+
+    }
+
+    80%{
+
+        filter:contrast(1.2);
+
+    }
+
+    100%{
+
+        transform:none;
+
+        filter:none;
+
+    }
+
+}
+
+.glitch{
+
+    animation:glitch .12s infinite;
+
+}
+
+.crt-flash{
+
+    animation:flash .15s;
+
+}
+
+@keyframes flash{
+
+    from{
+
+        filter:brightness(1.3);
+
+    }
+
+    to{
+
+        filter:brightness(1);
+
+    }
+
+}
+
+/*========================================================
+RESPONSIVE
+========================================================*/
+
+@media (max-width:900px){
+
+.panel-content{
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+.about-image img{
+
+    width:180px;
+
+}
+
+#logo{
+
+    font-size:4.8rem;
+
+}
+
+.hero h2{
+
+    font-size:2rem;
+
+}
+
+.cards{
+
+    grid-template-columns:1fr;
+
+}
+
+.gallery{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media (max-width:600px){
+
+.hero{
+
+    padding:40px 15px;
+
+}
+
+#logo{
+
+    font-size:3.5rem;
+
+}
+
+.hero h2{
+
+    letter-spacing:4px;
+
+}
+
+.boot-text{
+
+    font-size:0.4rem;
+
+}
+
+.panel-title{
+
+    font-size:1.6rem;
+
+}
+
+.terminal{
+
+    min-height:320px;
+
+}
+
+.gallery{
+
+    grid-template-columns:1fr;
+
+}
+
+.hero-buttons{
+
+    flex-direction:column;
+
+    align-items:center;
+
+}
+
+.hero-buttons a{
+
+    width:220px;
+
+    text-align:center;
+
+}
+
+main{
+
+    width:96vw;
+
+}
+
+}
+
+/*========================================================
+SMALL DETAILS
+========================================================*/
+
+img{
+
+    user-select:none;
+
+}
+
+.panel{
+
+    backdrop-filter:blur(2px);
+
+}
+
+.card,
+.stat,
+.gallery img{
+
+    will-change:transform;
+
+}
+
+.hero-buttons a,
+.card,
+.stat,
+.gallery img{
+
+    transition:
+
+    transform .3s,
+
+    box-shadow .3s,
+
+    border-color .3s,
+
+    color .3s,
+
+    background .3s;
+
+}
+
+html{
+
+    scrollbar-color:var(--accent) #050505;
+
+}
+
+body{
+
+    transition:
+
+    background .5s,
+
+    color .5s;
+
+}
