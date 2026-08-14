@@ -33,19 +33,18 @@ class BootManager {
 
             "プレゼントーデイ、プレセントータイム",
             "",
-            "CPU............................OK",
-            "Memory.........................8192 MB",
-            "Graphics.......................PowerVR GE8320",
+            "CPU.................OK",
+          
+            "Graphics...........PVX",
       
-            "Filesystem.....................Mounted",
+            
             "Terminal.......................Ready",
           
-            "Loading Linux kernel...",
-            "Connecting to The Wired...",
             
-            "CONNECTED.",
+            "Connected to The Wired."
             
-            "Welcome back, System Ready."
+
+      
 
         ];
 
