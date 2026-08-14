@@ -33,11 +33,11 @@ class BootManager {
 
             "プレゼントーデイ、プレセントータイム",
             "",
-            "CPU............................OK",
-            "Graphics.......................PowerVR GE8320",
+            "CPU.....OK",
+            "Graphics.....PowerVR GE8320",
       
-            "Filesystem.....................Mounted",
-            "Terminal.......................Ready",
+            "Filesystem....Mounted",
+            "Terminal.....Ready",
           
   
     
