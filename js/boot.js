@@ -85,9 +85,12 @@ class BootManager {
         this._onTap = (e) => {
             if (!this.screen) return;
             if (this.finished) {
+                // single-tap reveal: if finished or skip is already true reveal immediately
                 this.reveal();
             } else {
+                // if not finished, skip and reveal immediately (one-tap UX)
                 this.skipBoot();
+                this.reveal();
             }
         };
 
@@ -100,6 +103,7 @@ class BootManager {
         this._onEnterClick = () => {
             if (!this.finished) {
                 this.skipBoot();
+                this.reveal();
             } else {
                 this.reveal();
             }
@@ -191,6 +195,7 @@ class BootManager {
                 this.site.style.opacity = '1';
                 this.site.style.visibility = 'visible';
                 this.site.style.pointerEvents = 'auto';
+                this.site.style.display = 'block';
             }
         } catch (e) {}
 
