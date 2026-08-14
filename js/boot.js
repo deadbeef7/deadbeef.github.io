@@ -31,26 +31,21 @@ class BootManager {
 
         this.lines = [
 
-            "AYOUB BIOS v2.1",
+            "プレゼントーデイ、プレセントータイム",
             "",
             "CPU............................OK",
             "Memory.........................8192 MB",
             "Graphics.......................PowerVR GE8320",
-            "Storage........................Detected",
+      
             "Filesystem.....................Mounted",
             "Terminal.......................Ready",
             "",
             "Loading Linux kernel...",
-            "",
-            "Mounting /home/ayoub...",
-            "",
             "Connecting to The Wired...",
             "",
             "CONNECTED.",
             "",
-            "Welcome back, Ayoub.",
-            "",
-            "System Ready."
+            "Welcome back, System Ready."
 
         ];
 
