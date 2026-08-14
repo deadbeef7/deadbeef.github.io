@@ -58,6 +58,22 @@ class BootManager {
 
         this.running = true;
 
+        // Ensure the boot overlay is visible and site hidden in case CSS or other scripts changed
+        try {
+            if (this.screen && this.screen.style) {
+                this.screen.style.display = 'flex';
+                this.screen.style.zIndex = '2147483647';
+                this.screen.style.pointerEvents = 'auto';
+            }
+            if (this.site && this.site.style) {
+                this.site.style.opacity = '0';
+                this.site.style.visibility = 'hidden';
+                this.site.style.pointerEvents = 'none';
+            }
+        } catch (e) {
+            // ignore
+        }
+
         // keyboard skip (Escape)
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
@@ -168,7 +184,15 @@ class BootManager {
 
         await sleep(700);
 
-        this.screen.style.display = "none";
+        try {
+            // hide overlay and reveal site with inline styles to avoid CSS race conditions
+            if (this.screen && this.screen.style) this.screen.style.display = 'none';
+            if (this.site && this.site.style) {
+                this.site.style.opacity = '1';
+                this.site.style.visibility = 'visible';
+                this.site.style.pointerEvents = 'auto';
+            }
+        } catch (e) {}
 
         this.site.classList.add("visible");
 
