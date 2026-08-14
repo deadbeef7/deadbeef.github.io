@@ -1,31 +1,715 @@
-/* ========================================================
-   HOTFIX (revised): keep boot overlay on top but don't force #site display
-   The previous hotfix used display:none !important which prevented
-   JS from reliably showing the site. Use opacity/visibility/pointer-events
-   and leave display in the normal flow so transitions and JS inline
-   styles can take effect.
-   ======================================================== */
+/*========================================================
 
-#boot-screen {
-  z-index: 2147483647 !important;
-  background: #000 !important;
-  pointer-events: auto !important;
-  display: flex !important;
+                    Ayoub Portfolio
+
+                        style.css
+
+========================================================*/
+
+/*========================================================
+RESET
+========================================================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-#site {
-  /* keep in flow but hidden visually */
-  display: block !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  transition: opacity .4s ease, visibility .4s ease;
+html{
+
+    scroll-behavior:smooth;
+
 }
 
-#site.visible {
-  opacity: 1 !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
+body{
+
+    overflow-x:hidden;
+
+    font-family:"IBM Plex Mono",monospace;
+
 }
 
-#boot-screen, #site { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+/*========================================================
+VARIABLES
+========================================================*/
+
+:root{
+
+    --background:#000000;
+
+    --panel:#090909;
+
+    --panel2:#111111;
+
+    --border:#ff7a00;
+
+    --border2:#ff9900;
+
+    --text:#ffb347;
+
+    --accent:#ff6a00;
+
+    --accent2:#ffb000;
+
+    --green:#7dff7d;
+
+    --shadow:0 0 10px rgba(255,120,0,.45);
+
+    --radius:8px;
+
+    --transition:.30s;
+
+}
+
+/*========================================================
+BODY
+========================================================*/
+
+body{
+
+    background:#000;
+
+    color:var(--text);
+
+    background-image:
+
+    radial-gradient(circle at top,#111 0%,#000 70%);
+
+    min-height:100vh;
+
+    line-height:1.6;
+
+}
+
+/* animated background */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background-image:
+
+    radial-gradient(#222 1px,transparent 1px);
+
+    background-size:24px 24px;
+
+    opacity:.08;
+
+    animation:gridMove 20s linear infinite;
+
+    pointer-events:none;
+
+    z-index:-2;
+
+}
+
+/* vignette */
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+
+    radial-gradient(circle,
+    transparent 45%,
+    rgba(0,0,0,.75) 100%);
+
+    pointer-events:none;
+
+    z-index:999;
+
+}
+
+/*========================================================
+CRT
+========================================================*/
+
+#scanlines{
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:998;
+
+    background:
+
+    repeating-linear-gradient(
+
+        to bottom,
+
+        rgba(255,255,255,.02),
+
+        rgba(255,255,255,.02) 1px,
+
+        transparent 2px,
+
+        transparent 4px
+
+    );
+
+    opacity:.45;
+
+}
+
+#noise{
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:997;
+
+    opacity:.035;
+
+    background-image:
+
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3C/feTurbulence%3E%3C/svg%3E");
+
+    animation:noise .20s infinite;
+
+}
+
+/*========================================================
+LINKS
+========================================================*/
+
+a{
+
+    color:var(--accent);
+
+    text-decoration:none;
+
+    transition:var(--transition);
+
+}
+
+a:hover{
+
+    color:white;
+
+    text-shadow:
+
+    0 0 5px var(--accent),
+
+    0 0 15px var(--accent);
+
+}
+
+/*========================================================
+SELECTION
+========================================================*/
+
+::selection{
+
+    background:var(--accent);
+
+    color:black;
+
+}
+
+/*========================================================
+SCROLLBAR
+========================================================*/
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#050505;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--accent);
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:var(--accent2);
+
+}
+
+/*========================================================
+BOOT SCREEN
+========================================================*/
+
+#boot-screen{
+
+    position:fixed;
+
+    inset:0;
+
+    background:black;
+
+    color:var(--accent);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:99999;
+
+    font-family:"VT323",monospace;
+
+    padding:40px;
+
+}
+
+#boot-output{
+
+    width:min(850px,95vw);
+
+    white-space:pre-wrap;
+
+    font-size:1.6rem;
+
+    line-height:1.3;
+
+}
+
+#boot-cursor{
+
+    font-size:2rem;
+
+    animation:blink .8s infinite;
+
+}
+
+#boot-enter{
+
+    opacity:0;
+
+    margin-top:30px;
+
+    font-size:1.3rem;
+
+    border:1px solid var(--accent);
+
+    padding:12px 28px;
+
+    transition:.5s;
+
+    cursor:pointer;
+
+}
+
+#boot-enter.show{
+
+    opacity:1;
+
+}
+
+#boot-enter:hover{
+
+    background:var(--accent);
+
+    color:black;
+
+}
+
+.power-off{
+
+    animation:powerOff .8s forwards;
+
+}
+
+/*========================================================
+SITE
+========================================================*/
+
+#site{
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:1s;
+
+}
+
+#site.visible{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+/*========================================================
+HERO
+========================================================*/
+
+.hero{
+
+    position:relative;
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    overflow:hidden;
+
+    padding:60px 20px;
+
+}
+
+.hero-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+    radial-gradient(circle at center,
+    rgba(255,120,0,.10),
+    transparent 65%);
+
+    pointer-events:none;
+
+}
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:900px;
+
+}
+
+/* boot text */
+
+.boot-text{
+
+    font-family:"VT323",monospace;
+
+    font-size:1.6rem;
+
+    color:var(--accent);
+
+    letter-spacing:4px;
+
+    margin-bottom:25px;
+
+    animation:flicker 4s infinite;
+
+}
+
+/* Japanese title */
+
+#logo{
+
+    font-family:"VT323",monospace;
+
+    font-size:7rem;
+
+    color:var(--accent);
+
+    text-shadow:
+
+    0 0 10px var(--accent),
+
+    0 0 30px var(--accent);
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    user-select:none;
+
+}
+
+#logo:hover{
+
+    transform:scale(1.05);
+
+}
+
+/* English title */
+
+.hero h2{
+
+    font-family:"VT323",monospace;
+
+    font-size:3rem;
+
+    letter-spacing:10px;
+
+    margin-top:-10px;
+
+    color:white;
+
+}
+
+/* subtitle */
+
+.subtitle{
+
+    margin-top:25px;
+
+    font-size:1rem;
+
+    color:#ffc97c;
+
+    letter-spacing:2px;
+
+}
+
+/* quote */
+
+.quote{
+
+    margin-top:18px;
+
+    color:#999;
+
+    font-style:italic;
+
+}
+
+/*========================================================
+BUTTONS
+========================================================*/
+
+.hero-buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    margin-top:45px;
+
+}
+
+.hero-buttons a{
+
+    padding:12px 28px;
+
+    border:2px solid var(--accent);
+
+    background:rgba(0,0,0,.5);
+
+    color:var(--accent);
+
+    transition:.3s;
+
+    box-shadow:var(--shadow);
+
+}
+
+.hero-buttons a:hover{
+
+    background:var(--accent);
+
+    color:black;
+
+    transform:translateY(-4px);
+
+}
+
+/*========================================================
+MAIN
+========================================================*/
+
+main{
+
+    width:min(1200px,94vw);
+
+    margin:auto;
+
+    padding-bottom:120px;
+
+}
+
+/*========================================================
+PANELS
+========================================================*/
+
+.panel{
+
+    background:rgba(10,10,10,.90);
+
+    border:2px solid var(--border);
+
+    border-radius:var(--radius);
+
+    margin:50px 0;
+
+    overflow:hidden;
+
+    box-shadow:
+
+    0 0 20px rgba(255,120,0,.12);
+
+    transition:.4s;
+
+}
+
+.panel:hover{
+
+    box-shadow:
+
+    0 0 25px rgba(255,120,0,.35);
+
+}
+
+/* title */
+
+.panel-title{
+
+    background:#090909;
+
+    border-bottom:2px solid var(--border);
+
+    padding:14px 22px;
+
+    font-family:"VT323",monospace;
+
+    font-size:2rem;
+
+    color:var(--accent);
+
+    letter-spacing:3px;
+
+}
+
+/* content */
+
+.panel-content{
+
+    display:flex;
+
+    gap:40px;
+
+    align-items:center;
+
+    padding:35px;
+
+}
+
+/*========================================================
+ABOUT
+========================================================*/
+
+.about-image{
+
+    flex-shrink:0;
+
+}
+
+.about-image img{
+
+    width:240px;
+
+    border:2px solid var(--accent);
+
+    image-rendering:pixelated;
+
+    box-shadow:var(--shadow);
+
+}
+
+.about-text{
+
+    flex:1;
+
+}
+
+.about-text p{
+
+    margin-bottom:18px;
+
+    font-size:1rem;
+
+    line-height:1.8;
+
+}
+
+/*========================================================
+SYSTEM STATUS
+========================================================*/
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:25px;
+
+    padding:30px;
+
+}
+
+.stat{
+
+    border:1px solid var(--border);
+
+    padding:20px;
+
+    background:#080808;
+
+    transition:.3s;
+
+}
+
+.stat:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:var(--shadow);
+
+}
+
+.stat h3{
+
+    font-family:"VT323",monospace;
+
+    color:var(--accent);
+
+    font-size:1.8rem;
+
+    margin-bottom:12px;
+
+}
+
+/* truncated for brevity */
