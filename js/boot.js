@@ -39,12 +39,12 @@ class BootManager {
       
             "Filesystem.....................Mounted",
             "Terminal.......................Ready",
-            "",
+          
             "Loading Linux kernel...",
             "Connecting to The Wired...",
-            "",
+            
             "CONNECTED.",
-            "",
+            
             "Welcome back, System Ready."
 
         ];
