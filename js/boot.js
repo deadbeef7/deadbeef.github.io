@@ -26,7 +26,7 @@ class BootManager {
         this.finished = false;
         this.skip = false;
 
-        this.charSpeed = 18;
+        this.charSpeed = 9;
         this.lineDelay = 140;
 
         this.lines = [
@@ -34,16 +34,15 @@ class BootManager {
             "プレゼントーデイ、プレセントータイム",
             "",
             "CPU............................OK",
-            "Memory.........................8192 MB",
             "Graphics.......................PowerVR GE8320",
       
             "Filesystem.....................Mounted",
             "Terminal.......................Ready",
           
-            "Loading Linux kernel...",
-            "Connecting to The Wired...",
+  
+    
             
-            "CONNECTED.",
+            "CONNECTED TO THE WIRED.",
             
             "Welcome back, System Ready."
 
