@@ -1001,68 +1001,28 @@ body.wired .online{
 }
 
 /* ========================================================
-   ADDED: Mobile / small-screen fixes for boot screen
-   These overrides keep the "PRESS ENTER" button visible on small
-   viewports and make the boot output scrollable instead of growing
-   the entire fixed boot screen. They also slightly reduce font sizes
-   on narrow screens so the boot text doesn't clog the viewport.
+   HOTFIX OVERRIDES: Ensure boot overlay covers the site and
+   the main #site stays hidden until explicitly revealed.
+   This guards against accidental visibility after the update.
    ======================================================== */
 
 #boot-screen {
-    /* keep using column layout but reserve space for the enter button */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* keep enter visible at bottom */
-    align-items: center;
-    padding: 20px;
-    overflow: hidden; /* container stays fixed */
+    z-index: 2147483647 !important; /* highest reasonable z-index */
+    background: #000 !important;
+    pointer-events: auto !important;
 }
 
-#boot-output {
-    width: 95%;
-    max-width: 850px;
-    /* allow output area to grow but stay scrollable */
-    flex: 1 1 auto;
-    overflow: auto;
-    max-height: calc(100vh - 120px); /* leave room for cursor + enter + padding */
-    white-space: pre-wrap;
-    font-size: 1.45rem; /* slightly smaller by default to fit more */
-    line-height: 1.25;
+#site {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
 }
 
-#boot-cursor {
-    /* keep cursor near the output bottom */
-    margin-top: 8px;
+#site.visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
 }
 
-#boot-enter {
-    position: relative;
-    z-index: 10;
-    margin-top: 12px;
-}
-
-/* Make sure the enter button is always reachable on touch devices */
-@media (max-width: 900px) {
-    #boot-output {
-        font-size: 1.1rem;
-        max-height: calc(100vh - 96px);
-    }
-    #boot-enter {
-        font-size: 1rem;
-        padding: 10px 18px;
-    }
-    .boot-text {
-        font-size: 1.1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    /* more compact on small phones */
-    #boot-screen { padding: 12px; }
-    #boot-output {
-        font-size: 1rem;
-        max-height: calc(100vh - 84px);
-    }
-    #boot-enter { padding: 8px 14px; }
-    #logo { font-size: 4.5rem; }
-}
+/* Prevent tap highlight jumping on mobile */
+#boot-screen, #site { -webkit-tap-highlight-color: rgba(0,0,0,0); }
